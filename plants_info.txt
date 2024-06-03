@@ -1,0 +1,31 @@
+React-проект №1(SPA):
+
+
+   1) Структура:
+            5 отдельных страницы: 
+                              Home
+                              All cards
+                              More
+                              One Card
+                              Cart(корзина)
+   2) Возможности:
+             -Подгрузка карточек по кнопке через запрос на json-server(с прелоадером при подгрузке)
+             -Поиск по карточкам через строку поиска
+             -Корзина и все её плюшки(добавление/удаление/подсчёт стоимости/показ кол-ва добавленных товаров/добавление в localStorage
+              *с localStorage - недоработка. При клике на "добавить" - происходит добавление в localStorage, но пока не смог сделать рендер оттуда
+              ** при заходе на пустую корзину - происходит редирект на Главную страницу 
+
+   3) Технологии:
+                 -Стандартные Хуки:
+                      useState()/useEffect()/useTransition()
+                      createContext/useContext() для карточек
+                      useNavigate() *для редиректа с корзины
+                      useParams()
+                      useSearchParams()
+                 -Кастомный Хук useLocalStorage() для записи в localStorage
+                 -Lazy-Loading/Suspense
+                 -Новый Routing:
+                      *createBrowserRouter()
+                 -React Hook Form
+                 -Axios
+                 -JSON-Server для карточек

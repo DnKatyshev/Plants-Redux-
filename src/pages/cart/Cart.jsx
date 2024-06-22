@@ -1,13 +1,20 @@
 // react-dependencies
-import { useContext, useEffect } from "react"
+import { useState, useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { useForm } from "react-hook-form"
+import ReCAPTCHA from "react-google-recaptcha"
+import { motion } from "framer-motion"
+
+// redux-dependencies
+import { useDispatch, useSelector } from "react-redux"
+import { getTotalPrice } from "../../store/mainSlice"
+
+// CONTEXT
+import { Context } from "../../context/Context"
 
 // project-component's imports
-import { CartContext } from "../../context/Context"
 import { CartItem } from "../../components/CartItem/CartItem"  // 1 item в корзине
 import { cartData } from "../../context/cartData" // статичный массив объектов карточек
-
-import { useLocalStorage } from "../../hooks/useLocalStorage"
 
 // project's styles/img
 import './cart.scss'
@@ -15,12 +22,35 @@ import './cart.scss'
 
 export const Cart = () => {
 
-    const {cartMain, getTotalPrice} = useContext(CartContext)  // State кол-ва карточек по id (1-0, 2-100, 3-0, 4-0..)
+    console.log(useSelector(state => state.reducer))
+
+    // Достаём из reducer-а наши State-ы  -  Общий Объект товаров / total price
+    const {cartObject} = useSelector(state => state.reducer)
+    const {totalPrice} = useSelector(state => state.reducer)
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getTotalPrice())
+    }, [cartObject])
+
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: {errors}
+    } = useForm({mode: 'onBlur'})
+
+    const onSubmit = (data) => {
+        console.log(data)
+        reset()
+    }
+
 
     // делаем переадресацию на главную страницу, если корзина пуста
     let sum = 0;
-    for(let i in cartMain){
-        sum += cartMain[i]
+    for(let i in cartObject){
+        sum += cartObject[i]
     }
     const navigate = useNavigate()
 
@@ -34,25 +64,35 @@ export const Cart = () => {
 
 
     // объявляем функцию подсчёта всей стоимости
-    const total = getTotalPrice()
 
-    // надо сделать рендер корзины через localStorage, но пояему то при заходе на страницу корзины - он обнуляется
-    const [storageState] = useLocalStorage()
+
+    const [captchaFlag, setCaptchaFlag] = useState(true)
+    function onChange() {
+        setCaptchaFlag(false)
+    }
     
 
     return(
 
         sum == 0
-
                     ?
-        <main>
+        <motion.main
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+            transition={{duration: 2, type: "spring"}}
+        >
             <h2 className="cart-empty-title">
                 Your cart is empty! We'll take you to the main page...
             </h2>            
-        </main>
-
+        </motion.main>
                     :
-        <main>
+        <motion.main
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+            transition={{duration: 2, type: "spring"}}
+        >
             <section className="cart">
                 <div className="container">
                     <div className="cart__body">
@@ -62,18 +102,64 @@ export const Cart = () => {
                         <ul className="cart__list">
                             {
                                 cartData.map((card) => {
-                                    if (cartMain[card.id] !== 0){
+                                    if (cartObject[card.id] !== 0){
                                         return <CartItem data={card}/>
                                     }
                                 })
                             }
                         </ul>
 
-                        {total > 0  ?  <h1 className="total-price">{total}$</h1>  :  null}
+                        {totalPrice > 0  ?  <h1 className="total-price">{totalPrice}$</h1>  :  null}
+
+                        <form id="form" className="form" method="post" onSubmit={handleSubmit(onSubmit)}
+                              style={{marginTop: "60px"}}>
+
+                            <div className="form__group">
+                                <label htmlFor="input-1" className="form__label">Your name</label>
+                                <input className="form__input" id="input-1" type="text" placeholder="Your name"
+                                    {
+                                        ...register('name', {
+                                            required: 'Write your name, please',
+                                            minLength: {
+                                                value: 2,
+                                                message: 'At least 2 charackters!'
+                                            }
+                                        })
+                                    }
+                                />
+                                {errors?.name && <span className="form__error">{errors?.name?.message}</span>}
+                                
+                            </div>
+
+
+                            <div className="form__group">
+                                <label htmlFor="input-2" className="form__label">Your email</label>
+                                <input className="form__input" id="input-2" type="email" placeholder="Your email"
+                                    {
+                                        ...register('email', {
+                                            required: 'Write your email, please',
+                                            pattern: /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/,
+                                        })
+                                    }
+                                />
+                                {errors?.email && <span className="form__error">{errors?.email?.message}</span>}
+                            </div>
+
+                            <ReCAPTCHA
+                                sitekey="6Lf62PgpAAAAAFWynmojRIjYayGYdjrO2dU5eEGm"
+                                onChange={onChange}
+                                className="recaptcha"
+                                style={{display: "block",
+                                        margin: "0 auto"
+                                }}
+                            />
+
+                            <button className="form__btn btn" type="submit" disabled={captchaFlag}>BUY</button>
+                        </form>
 
                     </div>
                 </div>
             </section>
-        </main>
+        </motion.main>
     )
 } 

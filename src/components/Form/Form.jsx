@@ -29,8 +29,8 @@ export const Form = () => {
         <form id="form" className="form" method="post" onSubmit={handleSubmit(onSubmit)}>
 
             <div className="form__group">
-                <label htmlFor="input-1" className="form__label">Your surname</label>
-                <input className="form__input" id="input-1" type="text" placeholder="Your name"
+                <label htmlFor="input-1" className="form__label">Your name</label>
+                <input className="form__input" id="input-1" type="text" placeholder="Name"
                     {
                         ...register('name', {
                             required: 'Write your name, please',
@@ -48,7 +48,7 @@ export const Form = () => {
 
             <div className="form__group">
                 <label htmlFor="input-2" className="form__label">Your surname</label>
-                <input className="form__input" id="input-2" type="email" placeholder="Your email"
+                <input className="form__input" id="input-2" type="email" placeholder="Surname"
                     {
                         ...register('email', {
                             required: 'Write your email, please',

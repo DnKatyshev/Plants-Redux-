@@ -3,11 +3,15 @@ import { useState, useEffect, useTransition, useContext } from "react"
 import { NavLink } from "react-router-dom"
 import axios from "axios" // для подгрузки карточек
 
-// project-component's imports
-import { getMainDataCards } from "../../data/getDataCards"
-import { CartContext } from "../../context/Context"
+// redux-dependencies
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCart } from "../../store/mainSlice"; // 1 из action-ов. Их мы диспатчим. А state(через useSelector) читаем из reducer-ов
+import { useGetMainDataCardsQuery } from "../../store/createApi";
 
-import { useLocalStorage } from "../../hooks/useLocalStorage"
+// project-component's imports
+
+// CONTEXT
+import { Context } from "../../context/Context"
 
 // project's styles/img
 import { Preloader } from "../../data/Preloader"
@@ -15,28 +19,29 @@ import { Preloader } from "../../data/Preloader"
 
 export const MainCards = () => {
 
+    const [cards, setCards] = useState(0)
     const [isPending, setTransition] = useTransition()
-    const [cards, getCards] = useState(0)
+
+    const {
+        data,
+        isSuccess
+    } = useGetMainDataCardsQuery()
+
     useEffect(() => {
-        setTransition(() => getMainDataCards()
-            .then(
-                response => getCards(response.data)
-            )
-            .catch(
-                error => alert(error.status)
-            ))
-    }, [])
-    const [count, getCount] = useState(6)
+        if(isSuccess){
+            setTransition(() => setCards(data))
+        }
+    }, [data])
 
-
+    
     // Подгрузка карточек
+    const [count, getCount] = useState(6)
     function getAdditionalCards(){
-        
       setTransition( () => {
         return axios({
             url: `http://localhost:3000/cards?_limit=${count + 3}`,
         }).then(
-            response => getCards(response.data)
+            response => setCards(response.data)
         ).then(
             getCount(() => count + 3)
         ).catch(
@@ -46,32 +51,32 @@ export const MainCards = () => {
     }
 
     // отображение кол-ва добавленного в корзину / добавление в корзину
-    const {cartMain, addToCart} = useContext(CartContext)
+    const {favoritesMain, addToFavorites} = useContext(Context)
 
-    // функция для записи в localStorage - передаём в неё id элемента, и этот элемент добавляется
-    const [setStorage] = useLocalStorage()
+    // dispatch / state ДОБАВЛЕНИЯ В КОРЗИНУ
+    const dispatch = useDispatch()
+    const {cartObject} = useSelector(state => state.reducer)  // объект 1-0, 2-0, 3-1 - State КОРЗИНЫ, выраженный через reducer из configureStore
 
 
     const arrayData = Array.from(cards)
     const readyCards = arrayData.map((card) => {
-        let [img, title, info, price, id] = [card.img, card.title, card.info, card.price, card.id]
-        const cardCount = cartMain[id]
+        let [img, title, info, price, country, id] = [card.img, card.title, card.info, card.price, card.made, card.id]
         return(
             isPending ? <Preloader /> :
                 <li 
-                    className="cards__li"
+                    className="card__li"
                     key={id}
                     >
                         <img src={img} alt="" />
-                    <NavLink to={`/one-card/${id}`} className="cards__title">
+                    <NavLink to={`/one-card/${id}`} className="card__title">
                         {title}
                     </NavLink>
+                        <span className="card__made">{'('+country+')'}</span>
                         <p>{info}</p>
                         <div className="card__li-options">
-                            <span className="cards__price">{price}</span>
-                            <a href="#!" className="cards__basket btn" onClick={() => {
-                                addToCart(id)
-                                setStorage(id)
+                            <span className="card__price">{price}$</span>
+                            <a href="#!" className="card__basket btn" onClick={() => {
+                                dispatch(addToCart(id))
                             }}>
                                 <svg width={'32px'} version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 33 33" fill="#fff">
                                     <g>
@@ -79,9 +84,17 @@ export const MainCards = () => {
                                     <path d="M21.905,11.375c-0.276,0-0.5-0.224-0.5-0.5v-4.97C21.405,3.201,19.205,1,16.5,1s-4.905,2.201-4.905,4.905v4.97   c0,0.276-0.224,0.5-0.5,0.5s-0.5-0.224-0.5-0.5v-4.97C10.595,2.649,13.244,0,16.5,0s5.905,2.649,5.905,5.905v4.97   C22.405,11.151,22.182,11.375,21.905,11.375z"/>
                                     </g>
                                 </svg>
-                                {cardCount > 0  &&  <span className='card__li-count'>({cardCount})</span>}
+                                {cartObject[id] > 0  &&  <span className='card__li-count'>({cartObject[id]})</span>}
                             </a>
                         </div>
+                        <svg height="64px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="64px"
+                            onClick={() => {
+                                addToFavorites(id)
+                                }}
+                                className='heart'
+                        >
+                            <path d="M429.9,95.6c-40.4-42.1-106-42.1-146.4,0L256,124.1l-27.5-28.6c-40.5-42.1-106-42.1-146.4,0c-45.5,47.3-45.5,124.1,0,171.4 L256,448l173.9-181C475.4,219.7,475.4,142.9,429.9,95.6z" fill={favoritesMain[id] > 0 ? 'red' : 'transparent'} stroke={favoritesMain[id] > 0 ? null : '#5acf62'} strokeWidth='7px'/>
+                        </svg>
                 </li>
         )
     })

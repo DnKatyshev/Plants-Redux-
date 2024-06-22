@@ -1,8 +1,10 @@
 import { Outlet } from "react-router-dom";
 import { lazy } from "react";
+import Header from "./Header/Header";
+import Footer from "./Footer/Footer";
 import { Preloader } from "../data/Preloader";
-const Header = lazy( () => import('./Header/Header'))  // Динамические импорты Компонентов для lazy-loading
-const Footer = lazy( () => import('./Footer/Footer'))
+// const Header = lazy( () => import('./Header/Header'))  // Динамические импорты Компонентов для lazy-loading
+// const Footer = lazy( () => import('./Footer/Footer'))
 
 const Layout = ({setFilterCardsText, startTitleTransition}) => {
   return (

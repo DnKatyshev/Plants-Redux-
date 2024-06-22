@@ -2,7 +2,7 @@
 
 
 .all-cards{
-    margin-top: 50px;
+    margin-top: 80px;
 }
 
 .cards__list-page{
@@ -67,7 +67,7 @@
     }
 }
 
-.cards__basket{
+.card__basket{
     position: relative;
     .card__li-count{
         position: absolute;
@@ -75,3 +75,26 @@
         top: 0;
     }
 }
+
+
+.filters{
+    text-align: center;
+    &__btn{
+        margin-bottom: 40px !important;
+    }
+    &__menu{
+
+    }
+    &__item{
+        color: orange !important;
+        font-family: 'Inter' !important;
+        font-weight: 500 !important;
+    }
+}
+.MuiPaper-root{
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: 24% !important;
+    border-radius: 20px !important;
+}
+

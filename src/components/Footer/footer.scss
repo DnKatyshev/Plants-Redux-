@@ -2,8 +2,14 @@
 
 
 .footer{
+    position: absolute;
+    bottom: -160px;
     background: #0b1a0b;
-
+    @media(max-width: 768px){
+        &{
+            bottom: -280px;
+        }
+    }
     &__body{
         padding: 30px;
         display: flex;

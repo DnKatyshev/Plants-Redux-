@@ -26,7 +26,7 @@
     &__input{
         padding: 12px;
         background: #2d3b24;
-        border-radius: 18px;
+        border-radius: 14px;
         font-weight: 500;
         color: rgba(255, 255, 255, .8);
     }
@@ -35,7 +35,8 @@
     &__textarea{
         padding: 12px;
         background: #2d3b24;
-        border-radius: 18px;
+        border-radius: 14px;
+        font-family: 'Inter';
         font-weight: 500;
         color: rgba(255, 255, 255, .8);
         height: 250px;

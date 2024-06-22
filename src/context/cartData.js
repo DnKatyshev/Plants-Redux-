@@ -70,17 +70,10 @@ export const cartData = [
             id: 10
         },
         {
-            img: "./img/img-3.png",
-            title: "Spider plant",
-            info: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            price: "30$",
-            id: 11
-        },
-        {
             img: "./img/img-4.png",
             title: "Areca palm",
             info: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
             price: "300$",
-            id: 12
+            id: 11
         }
     ]

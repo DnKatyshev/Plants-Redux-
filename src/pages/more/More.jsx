@@ -1,4 +1,5 @@
 // react-dependencies
+import { motion } from 'framer-motion'
 
 // project-component's imports
 
@@ -22,7 +23,12 @@ export const More = () => {
 
 
     return(
-        <main> 
+        <motion.main
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+            transition={{duration: 2, type: "spring"}}
+        > 
  
             <section className="reviews">
                 <div className="container">
@@ -162,6 +168,6 @@ export const More = () => {
                 </div>
             </section>
 
-        </main>
+        </motion.main>
     )
 }

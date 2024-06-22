@@ -4,85 +4,89 @@
             "img": "./img/img-1.png",
             "title": "Snake Plant",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "49$",
+            "price": 49,
+            "made": "Thailand",
             "id": 1
         }, 
         {
             "img": "./img/img-2.png",
             "title": "Peace Lily",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "66$",
+            "price": 66,
+            "made": "Norway",
             "id": 2
         },
         {
             "img": "./img/img-3.png",
             "title": "Rubber Plant",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "39$",
+            "price": 39,
+            "made": "Norway",
             "id": 3
         },
         {
             "img": "./img/img-4.png",
             "title": "Monstera",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "200$",
+            "price": 200,
+            "made": "Norway",
             "id": 4
         },
         {
             "img": "./img/img-5.png",
             "title": "Orchid",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "50$",
+            "price": 50,
+            "made": "Thailand",
             "id": 5
         },
         {
             "img": "./img/img-6.png",
             "title": "Fiddle Leaf Fig",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "25$",
+            "price": 25,
+            "made": "Thailand",
             "id": 6
         },
         {
             "img": "./img/img-7.png",
             "title": "Aloe Vera",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "99$",
+            "price": 99,
+            "made": "Thailand",
             "id": 7
         },
         {
             "img": "./img/img-8.png",
             "title": "Bird of Paradise",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "100$",
+            "price": 100,
+            "made": "Norway",
             "id": 8
         },
         {
             "img": "./img/img-9.png",
             "title": "ZZ Plant",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "40$",
+            "price": 40,
+            "made": "Norway",
             "id": 9
         },
         {
             "img": "./img/img-2.png",
             "title": "Pothos",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "90$",
+            "price": 90,
+            "made": "Norway",
             "id": 10
-        },
-        {
-            "img": "./img/img-3.png",
-            "title": "Spider plant",
-            "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "30$",
-            "id": 11
         },
         {
             "img": "./img/img-4.png",
             "title": "Areca palm",
             "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-            "price": "300$",
-            "id": 12
+            "price": 300,
+            "made": "Norway",
+            "id": 11
         }
     ]
 }

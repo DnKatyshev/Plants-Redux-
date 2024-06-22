@@ -3,7 +3,7 @@
 
 section{
     position: relative;
-    padding: 100px 0;
+    padding: 110px 0;
 } 
 .btn{
     display: inline-block;
@@ -70,9 +70,19 @@ section{
             font-weight: 600;
             h3{
                 font-size: 32px;
+                @media(max-width: 768px){
+                    &{
+                        font-size: 26px;
+                    }
+                }
             }
             p{
                 font-size: 20px;
+                @media(max-width: 768px){
+                    &{
+                        font-size: 20px;
+                    }
+                }
             }
             .layout__example-price{
                 font-size: 35px;
@@ -80,7 +90,12 @@ section{
             .layout__example-icons{
                 display: flex;
                 align-items: center;
-                column-gap: 40px;
+                gap: 40px;
+                @media(max-width: 768px){
+                    &{
+                       flex-direction: column;
+                    }
+                }
             }
             .layout__btn-basket{
                 padding: 12px;
@@ -108,18 +123,23 @@ section{
 // Cards
 .cards__list{
     display: grid;
-    grid-template: 1fr / repeat(3, 24%);
+    grid-template: repeat(2, auto) / repeat(3, 24%);
     justify-content: center;
     gap: 30px;
-    @media(max-width: 1000px){
+    @media(max-width: 1300px){
         &{
-            grid-template: repeat(3, auto) / 1fr;
+            grid-template-columns: repeat(2, 40%);
         }
     }
-    .cards__li{
+    @media(max-width: 768px){
+        &{
+            grid-template: repeat(6, auto) / 100%;
+            justify-content: stretch;
+        }
+    }
+    .card__li{
         display: flex;
         flex-direction: column;
-        height: 100%;
         padding: 24px;
         color: #fff;
         border-radius: 30px;
@@ -130,7 +150,7 @@ section{
             top: -60px;
             width: 100%;
         }
-        .cards__title{
+        .card__title{
             color: #fff;
             opacity: .9;
             font-size: 32px;
@@ -150,15 +170,22 @@ section{
             align-items: center;
             column-gap: 50px;
         }
-        .cards__price{
+        .card__price{
             font-size: 34px;
             font-weight: 600;
+        }
+        .card__made{
+            font-size: 14px;
+            font-weight: 500;
+            color: rgb(255, 231, 231);
         }
     }
 
     .cards__loading-btn{
-        grid-column: 2 / 3;
-        margin: 0 auto;
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
         background: rgba(255, 255, 255, .95);
         color: #72ff83;
         transition: all .2s ease-in-out;
@@ -181,4 +208,8 @@ section{
     top: 40%;
     left: 50%;
     transform: translate(-50%, -40%);
+}
+
+.heart{
+    cursor: pointer;
 }

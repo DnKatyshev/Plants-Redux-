@@ -1,7 +1,16 @@
-// React-dependencies
+// // React-dependencies
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import { Fragment, lazy, useState, useTransition } from 'react';
 import { Suspense } from 'react';
+import { AnimatePresence } from 'framer-motion';
+
+// Redux-dependencies
+import { Provider } from 'react-redux';
+// import { store } from './store/configureStore';
+
+// Redux-Persist
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './store/configureStore';
 
 // Pages
 import { Main } from "./pages/main/Main";
@@ -9,8 +18,9 @@ import { More } from './pages/more/More';
 import { Cards } from './pages/cards/Cards';
 import { OneCard } from './pages/oneCard/OneCard';
 import { Cart } from './pages/cart/Cart';
+import { Favorites } from './pages/favorites/Favorites'
 
-import { CartContextProvider } from './context/Context';
+import { MainContext } from './context/Context';
 
 // Components
 import Layout from './components/Layout';
@@ -18,55 +28,63 @@ import Layout from './components/Layout';
 
 const App = () => {
 
-
-    // state-lifting for cards's filtering (Header/Main)
-    const [filterCardsText, setFilterCardsText] = useState(0)
+    // state-lifting for cards's filtering TRANSITION
     const [isTitlePending, startTitleTransition] = useTransition()
 
 
     const router = createBrowserRouter(
         createRoutesFromElements(
 
-            
-            <Route 
-                path="/" 
-                element={<Layout setFilterCardsText={setFilterCardsText} startTitleTransition={startTitleTransition} />} 
+
+            <Route
+                path="/"
+                element={<Layout startTitleTransition={startTitleTransition} />}
             >
 
-                <Route 
+                <Route
                     index
-                    element={<Main filterCardsText={filterCardsText} isTitlePending={isTitlePending} />} 
-                /> 
+                    element={<Main />}
+                />
 
-                <Route 
-                    path="more" 
-                    element={<More />} 
-                /> 
-                <Route 
-                    path="all-cards" 
-                    element={<Cards filterCardsText={filterCardsText} isTitlePending={isTitlePending} />} 
-                /> 
-                <Route 
-                    path="one-card/:id" 
-                    element={<OneCard />} 
-                /> 
-                <Route 
-                    path="cart" 
-                    element={<Cart />} 
-                /> 
+                <Route
+                    path="catalog"
+                    element={<Cards isTitlePending={isTitlePending} />}
+                />
+                <Route
+                    path="more"
+                    element={<More />}
+                />
+                <Route
+                    path="one-card/:id"
+                    element={<OneCard />}
+                />
 
-            </Route> 
-            
+                <Route
+                    path="favorites"
+                    element={<Favorites />}
+                />
+                <Route
+                    path="cart"
+                    element={<Cart />}
+                />
+
+            </Route>
+
 
         )
-      )
+    )
 
 
     return (
-        <CartContextProvider>
-            <RouterProvider router={router} />
-        </CartContextProvider>
-
+        <Provider store={store}>
+            <PersistGate persistor={persistor} loading={null}>
+                <AnimatePresence mode="wait">
+                    <MainContext>
+                        <RouterProvider router={router} />
+                    </MainContext>
+                </AnimatePresence>
+            </PersistGate>
+        </Provider>
     )
 }
 

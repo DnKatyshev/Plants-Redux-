@@ -23,9 +23,10 @@ const Footer = () => {
 
 
                     <ul className="footer__list">
-                        <li className="header__nav-li"><NavLink to='/'>Home</NavLink></li>
-                        <li className="footer__li"><NavLink to='/all-cards'>Cards</NavLink></li>
-                        <li className="header__nav-li"><NavLink to='/more'>More</NavLink></li>
+                        <li className="footer__nav-li"><NavLink to='/'>Home</NavLink></li>
+                        <li className="footer__li"><NavLink to='/catalog'>Cards</NavLink></li>
+                        <li className="footer__nav-li"><NavLink to='/more'>More</NavLink></li>
+                        <li className="footer__nav-li"><NavLink to="/favorites">Favorites</NavLink></li>
                     </ul>
 
 

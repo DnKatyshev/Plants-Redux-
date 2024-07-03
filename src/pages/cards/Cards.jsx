@@ -34,7 +34,7 @@ export const Cards = ({isTitlePending}) => {
     const {cartObject} = useSelector(state => state.reducer)  // объект 1-0, 2-0, 3-1 - State КОРЗИНЫ, выраженный через reducer из configureStore
 
 
-    // получение ВСЕХ карточек по запросу
+    // получение ВСЕХ карточек по запросу ЧЕРЕЗ RTK-ХУКИ
     const [allCards, setAllCards] = useState(0)
     const [allCardsPending, setAllCardsTransition] = useTransition()
 
@@ -59,9 +59,6 @@ export const Cards = ({isTitlePending}) => {
     const {
         data: cardsFilterThailand=[],
     } = useSortCardsByCountry__ThailandQuery()
-
-    console.log(cardsFilterThailand)
-
     // ИЗВЛЕКАЕМ data и состояния запроса ИЗ RTK-ХУКОВ:
 
 
@@ -77,6 +74,8 @@ export const Cards = ({isTitlePending}) => {
     function openFlag(){
         setOpen(!open)
     }
+
+    
     // ФУНКЦИИ СОРТИРОВКИ:
     const sortInc = () => {   // 1)СОРТИРОВКА по возрастанию через ЗАПРОС
         setAllCardsTransition( () => setAllCards(cardsFilterInc) )

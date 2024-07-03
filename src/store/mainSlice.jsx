@@ -23,44 +23,20 @@ const mainSlice = createSlice({
         // Action-ы КОРЗИНЫ:
         addToCart(state, action){
             const cartId = action.payload
-            return {
-                ...state,
-                cartObject: {
-                    ...state.cartObject,
-                    [cartId]: state.cartObject[cartId] + 1
-                }
-            }
+            state.cartObject[cartId] += 1
         },
         removeFromCart(state, action){
             const cartId = action.payload
-            return {
-                ...state,
-                cartObject: {
-                    ...state.cartObject,
-                    [cartId]: state.cartObject[cartId] - 1
-                }
-            }
+            state.cartObject[cartId] -= 1
         },
         removeCompletelyFromCart(state, action){
             const cartId = action.payload
-            return {
-                ...state,
-                cartObject: {
-                    ...state.cartObject,
-                    [cartId]: state.cartObject[cartId] - state.cartObject[cartId]
-                }
-            }
+            state.cartObject[cartId] -= state.cartObject[cartId]
         },
         addArbitraryCout(state, action){
             const cartId = action.payload
             const cartInputCount = action.payload
-            return {
-                ...state,
-                cartObject: {
-                    ...state.cartObject,
-                    [cartId]: cartInputCount
-                }
-            }
+            state.cartObject[cartId] = cartInputCount
         },
         getTotalPrice(state){
             let totalPrice = 0;
